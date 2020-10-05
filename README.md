@@ -14,3 +14,7 @@ Group Members:
 - Jacob Farabee
 
 - Kesav Kadalazhi
+
+
+client - contains the React JS client for our project
+sqlQueries - contains the sqlQueries we used for creating out database and retrieving data
