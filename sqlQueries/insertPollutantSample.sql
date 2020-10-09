@@ -3,8 +3,8 @@
 
 --given a sample site that already exists
 INSERT INTO pollutant_sample
-VALUES (generated_sample_id, user_given_date, user_given_max_hour, user_given_aqi,
-	user_given_units, user_given_mean)
+VALUES (DEFAULT, user_given_date, user_given_max_hour, user_given_aqi,
+	user_given_units, user_given_mean) RETURNING id
 
 --Do we restrict samples submitted to the types we already have?
 
