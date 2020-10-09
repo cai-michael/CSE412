@@ -40,7 +40,7 @@ CREATE TABLE taken_at(
 
 CREATE TABLE county(
     county_code serial PRIMARY KEY,
-    county VARCHAR (255)
+    county_name VARCHAR (255)
 );
 
 CREATE TABLE in_county(
@@ -55,7 +55,7 @@ CREATE TABLE in_county(
 
 CREATE TABLE state(
     state_code serial PRIMARY KEY,
-    state VARCHAR (255)
+    state_name VARCHAR (255)
 );
 
 CREATE TABLE in_state(
