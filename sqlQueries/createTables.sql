@@ -17,9 +17,12 @@ CREATE TABLE is_type(
     sample_id INT NOT NULL,
     PRIMARY KEY (type_id, sample_id),
     FOREIGN KEY (type_id)
-        REFERENCES pollutant_type (id),
+        REFERENCES pollutant_type (id)
+        ON UPDATE CASCADE,
     FOREIGN KEY (sample_id)
         REFERENCES pollutant_sample (id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
 CREATE TABLE survey_site(
@@ -33,9 +36,13 @@ CREATE TABLE taken_at(
     site_num INT NOT NULL,
     PRIMARY KEY (sample_id, site_num),
     FOREIGN KEY (sample_id)
-        REFERENCES pollutant_sample (id),
+        REFERENCES pollutant_sample (id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
     FOREIGN KEY (site_num)
         REFERENCES survey_site (site_num)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
 CREATE TABLE county(
@@ -48,9 +55,12 @@ CREATE TABLE in_county(
     county_code INT NOT NULL,
     PRIMARY KEY (site_num, county_code),
     FOREIGN KEY (site_num)
-        REFERENCES survey_site (site_num),
+        REFERENCES survey_site (site_num)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
     FOREIGN KEY (county_code)
         REFERENCES county (county_code)
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE state(
@@ -63,9 +73,12 @@ CREATE TABLE in_state(
     state_code INT NOT NULL,
     PRIMARY KEY (site_num, state_code),
     FOREIGN KEY (site_num)
-        REFERENCES survey_site (site_num),
+        REFERENCES survey_site (site_num)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
     FOREIGN KEY (state_code)
         REFERENCES state (state_code)
+        ON UPDATE CASCADE
 );
 
 
