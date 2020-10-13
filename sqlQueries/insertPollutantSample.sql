@@ -6,7 +6,7 @@ INSERT INTO pollutant_sample
 VALUES (DEFAULT, user_given_date, user_given_max_hour, user_given_aqi,
 	user_given_units, user_given_mean) RETURNING id
 
---Do we restrict samples submitted to the types we already have?
+--We need to prompt user for pollutant type if they pick one not in the DB
 
 INSERT INTO is_type
 VALUES (user_chosen_type_id, generated_sample_id)
