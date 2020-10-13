@@ -11,7 +11,7 @@ FROM pollutant_sample AS psample
   INNER JOIN pollutant_type AS ptype
     ON ptype.id = it.type_id
 WHERE site.site_num = user_site_num
-ORDER BY date_local
+ORDER BY ptype.name, date_local;
 
 -- Query for displaying all of a site's pollution data within a given timeframe
 --Inputs (user_site_num, lower_date_limit, upper_date_limit)
@@ -28,4 +28,4 @@ FROM pollutant_sample AS psample
 WHERE site.site_num = user_site_num
   AND date_local >= lower_date_limit
   AND date_local <= upper_date_limit
-ORDER BY date_local
+ORDER BY pytpe.name, date_local;
