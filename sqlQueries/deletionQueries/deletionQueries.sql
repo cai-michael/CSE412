@@ -31,3 +31,21 @@ DELETE
 FROM in_state
 WHERE site_num = user_selected_site_num
 	AND state_code = user_selected_state_code
+
+
+-- delete a type of pollutant, by id
+-- may not be necessary for presentation, but can be used for 
+-- DB maintenance
+
+-- we have ON DELETE CASCADE for all necessary tables
+-- so we can just delete the sample from the pollutant_type table
+DELETE
+FROM pollutant_type
+WHERE name = user_given_name
+
+-- Delete pollutant samples by id
+-- ON DELETE CASCADE lets us delete just the 
+-- pollutant_sample tuple
+DELETE
+FROM pollutant_sample
+WHERE id = user_selected_id
