@@ -38,19 +38,19 @@ for row in csvReader:
     # Populate State if not already
     state = row['State Code']
     if state not in states:
-        addState(cursor, state, row['State'])
+        helpers.addState(cursor, state, row['State'])
         states[state] = row['State']
     
     # Populate County if not already
     county = row['County Code']
     if county not in counties:
-        addCounty(cursor, county, row['County'])
+        helpers.addCounty(cursor, county, row['County'])
         counties[county] = row['County']
     
     # Populate Sites if not already
     siteNum = row['Site Num']
     if siteNum not in sites:
-        addSite(cursor, siteNum, row['Address'], row['City'], state, county)
+        helpers.addSite(cursor, siteNum, row['Address'], row['City'], state, county)
         sites[siteNum] = row['Address']
     
     # Grab Date
@@ -65,4 +65,4 @@ for row in csvReader:
         maxValue = row[pName + ' 1st Max Value']
         maxHour = row[pName + ' 1st Max Hour']
         aqi = row[pName + ' AQI']
-        addSample(cursor, uniqueId, maxHour, maxValue, aqi, units, mean, siteNum, pNum)
+        helpers.addSample(cursor, uniqueId, maxHour, maxValue, aqi, units, mean, siteNum, pNum)
