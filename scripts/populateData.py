@@ -8,6 +8,15 @@ with open("../config.json") as json_config_file:
 
 import csv
 csvData = open('../sampleData.csv', newline='')
-csvReader = csv.reader(csvData, delimiter=',', quotechar='|')
+csvReader = csv.DictReader(csvData, delimiter=',', quotechar='|')
 for row in csvReader:
-        print(', '.join(row))
+        
+        #pollutant_type
+        #pollutant_sample
+        #is_type
+        #survey_site
+        #taken_at
+        #county
+        #in_county
+        #state
+        #in_state
