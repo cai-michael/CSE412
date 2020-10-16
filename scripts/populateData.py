@@ -4,10 +4,10 @@ import psycopg2
 from populateDataHelpers import *
 
 # Path to the CSV we want to populate from
-dataPath = 'sampleData.csv'
+dataPath = '../sampleData.csv'
 
 # Open Config File for Database Credentials
-with open("config.json") as json_config_file:
+with open("../config.json") as json_config_file:
     config = json.load(json_config_file)['database']
 
 # Make Databse Connection
