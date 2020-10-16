@@ -1,24 +1,44 @@
+from psycopg2 import Error
+
 def addState(cursor, stateId, stateName):
-    cursor.execute(f'INSERT INTO state VALUES({stateId}, \'{stateName}\')')
+    try:
+        cursor.execute(f'INSERT INTO state VALUES({stateId}, \'{stateName}\')')
+    except Error as e:
+        pass
 
 def addCounty(cursor, countyId, countyName):
-    cursor.execute(f'INSERT INTO county VALUES({countyId}, \'{countyName}\')')
+    try:
+        cursor.execute(f'INSERT INTO county VALUES({countyId}, \'{countyName}\')')
+    except Error as e:
+        pass
 
 def populateTypes(cursor, pTypes):
-    for typeName, typeId in pTypes.items():
-        cursor.execute(f'INSERT INTO pollutant_type VALUES({typeId}, \'{typeName}\')')
+    try:
+        for typeName, typeId in pTypes.items():
+            cursor.execute(f'INSERT INTO pollutant_type VALUES({typeId}, \'{typeName}\')')
+    except Error as e:
+        pass
 
 def addSite(cursor, siteNum, address, city, state, county):
-    cursor.execute(f'INSERT INTO survey_site VALUES({siteNum}, \'{address}\', \'{city}\')')
-    cursor.execute(f'INSERT INTO in_county VALUES({siteNum}, {county})')
-    cursor.execute(f'INSERT INTO in_state VALUES({siteNum}, {state})')
+    try:
+        cursor.execute(f'INSERT INTO survey_site VALUES({siteNum}, \'{address}\', \'{city}\')')
+        cursor.execute(f'INSERT INTO in_county VALUES({siteNum}, {county})')
+        cursor.execute(f'INSERT INTO in_state VALUES({siteNum}, {state})')
+    except Error as e:
+        pass
 
 def addSample(cursor, uniqueId, maxHour, maxValue, aqi, units, mean, siteNum, pNum, dateLocal):
-    cursor.execute(f'INSERT INTO pollutant_sample VALUES({uniqueId}, \'{dateLocal}\', {maxHour}, {maxValue}, {aqi}, \'{units}\', {mean})')
-    cursor.execute(f'INSERT INTO taken_at VALUES({uniqueId}, {siteNum})')
-    cursor.execute(f'INSERT INTO is_type VALUES({pNum}, {uniqueId})')
+    try:
+        cursor.execute(f'INSERT INTO pollutant_sample VALUES({uniqueId}, \'{dateLocal}\', {maxHour}, {maxValue}, {aqi}, \'{units}\', {mean})')
+        cursor.execute(f'INSERT INTO taken_at VALUES({uniqueId}, {siteNum})')
+        cursor.execute(f'INSERT INTO is_type VALUES({pNum}, {uniqueId})')
+    except Error as e:
+        pass
 
 def alterSequences(cursor, maxStateId, maxCountyId, maxSiteId):
-    cursor.execute(f'ALTER SEQUENCE state_id_seq RESTART WITH {maxStateId}')
-    cursor.execute(f'ALTER SEQUENCE site_id_seq RESTART WITH {maxSiteId}')
-    cursor.execute(f'ALTER SEQUENCE county_id_seq RESTART WITH {maxCountyId}')
+    try:
+        cursor.execute(f'ALTER SEQUENCE state_id_seq RESTART WITH {maxStateId}')
+        cursor.execute(f'ALTER SEQUENCE site_id_seq RESTART WITH {maxSiteId}')
+        cursor.execute(f'ALTER SEQUENCE county_id_seq RESTART WITH {maxCountyId}')
+    except Error as e:
+        pass

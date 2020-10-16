@@ -57,6 +57,8 @@ for row in csvReader:
         maxValue = row[pName + ' 1st Max Value']
         maxHour = row[pName + ' 1st Max Hour']
         aqi = row[pName + ' AQI']
+        if aqi == '':
+            aqi = 'NULL'
         addSample(cursor, uniqueId, maxHour, maxValue, aqi, units, mean, siteNum, pNum, dateLocal)
         conn.commit()
 
