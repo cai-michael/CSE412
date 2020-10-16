@@ -1,33 +1,33 @@
 -- generic deletion query for all tables
 
-DELETE *
+DELETE
 FROM taken_at
 WHERE site_num = user_selected_site_num
 	AND sample_id = user_selected_sample_id
 
-DELETE *
+DELETE
 FROM survey_site
 WHERE site_num = user_selected_site_num
 
-DELETE *
+DELETE
 FROM is_type
 WHERE type_id = user_selected_type_id
 	AND sample_id = user_selected_sample_id
 
-DELETE *
+DELETE
 FROM county
 WHERE county_code = user_selected_county_code
 
-DELETE *
+DELETE
 FROM in_county
 WHERE site_num = user_selected_site_num
 	AND county_code = user_selected_county_code
 
-DELETE *
+DELETE
 FROM state
 WHERE state_code = user_selected_state_code
 
-DELETE *
+DELETE
 FROM in_state
 WHERE site_num = user_selected_site_num
 	AND state_code = user_selected_state_code
