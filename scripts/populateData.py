@@ -13,6 +13,7 @@ with open("../config.json") as json_config_file:
 # Make Databse Connection
 conn = psycopg2.connect(dbname=config['dbname'], user=config['username'], password=config['password'], host=config['hosturl'])
 cursor = conn.cursor()
+print('Established Connection to database: ' + config['dbname'])
 
 # Create Dictionaries to ensure consistency
 pTypes = { 'NO2':1, 'O3':2, 'SO2':3, 'CO':4 }
@@ -26,6 +27,7 @@ populateTypes(cursor, pTypes)
 counter = 0
 csvData = open(dataPath, newline='')
 csvReader = csv.DictReader(csvData, delimiter=',', quotechar='|')
+print('Adding samples from csv to database')
 for row in csvReader:
     # Populate State if not already
     state = row['State Code']
@@ -61,10 +63,17 @@ for row in csvReader:
             aqi = 'NULL'
         addSample(cursor, uniqueId, maxHour, maxValue, aqi, units, mean, siteNum, pNum, dateLocal)
         conn.commit()
+        
+    if counter % (len(pTypes) * 10) == 0:
+        print(f'Added {counter} rows of data so far')
+
+# Print finished confirmation
+print(f'A total of {counter} samples have been added to the database')
 
 # Alter the sequences so inserts work ok
 alterSequences(cursor, max(states.keys()), max(counties.keys()), max(sites.keys()))
 conn.commit()
+print('Altered Serial Sequences')
 
 # Close Connection
 cursor.close()
