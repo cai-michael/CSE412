@@ -8,6 +8,6 @@ with open("../config.json") as json_config_file:
 
 import csv
 csvData = open('../sampleData.csv', newline='')
-csvReader = csv.reader(csvfile, delimiter=',', quotechar='|')
+csvReader = csv.reader(csvData, delimiter=',', quotechar='|')
 for row in csvReader:
         print(', '.join(row))
