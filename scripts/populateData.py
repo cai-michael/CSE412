@@ -1,7 +1,7 @@
 import json
 import csv
 import psycopg2
-import populateDataHelpers as helpers
+from populateDataHelpers import *
 
 # Path to the CSV we want to populate from
 dataPath = 'sampleData.csv'
@@ -11,7 +11,7 @@ with open("config.json") as json_config_file:
     config = json.load(json_config_file)['database']
 
 # Make Databse Connection
-conn = psycopg2.connect(dbname=config['dbname'], user=config['username'], password=['password'], host=['hosturl'])
+conn = psycopg2.connect(dbname=config['dbname'], user=config['username'], password=config['password'], host=config['hosturl'])
 cursor = conn.cursor()
 
 # Create Dictionaries to ensure consistency
@@ -20,7 +20,7 @@ sites = { }
 counties = { }
 states = { }
 
-helpers.populateTypes(cursor, pTypes)
+populateTypes(cursor, pTypes)
 
 # Open the CSV and start populating
 counter = 0
@@ -30,19 +30,19 @@ for row in csvReader:
     # Populate State if not already
     state = row['State Code']
     if state not in states:
-        helpers.addState(cursor, state, row['State'])
+        addState(cursor, state, row['State'])
         states[state] = row['State']
     
     # Populate County if not already
     county = row['County Code']
     if county not in counties:
-        helpers.addCounty(cursor, county, row['County'])
+        addCounty(cursor, county, row['County'])
         counties[county] = row['County']
     
     # Populate Sites if not already
     siteNum = row['Site Num']
     if siteNum not in sites:
-        helpers.addSite(cursor, siteNum, row['Address'], row['City'], state, county)
+        addSite(cursor, siteNum, row['Address'], row['City'], state, county)
         sites[siteNum] = row['Address']
     
     # Grab Date
@@ -57,8 +57,12 @@ for row in csvReader:
         maxValue = row[pName + ' 1st Max Value']
         maxHour = row[pName + ' 1st Max Hour']
         aqi = row[pName + ' AQI']
-        helpers.addSample(cursor, uniqueId, maxHour, maxValue, aqi, units, mean, siteNum, pNum, dateLocal)
+        addSample(cursor, uniqueId, maxHour, maxValue, aqi, units, mean, siteNum, pNum, dateLocal)
         conn.commit()
+
+# Alter the sequences so inserts work ok
+alterSequences(cursor, max(states.keys()), max(counties.keys()), max(sites.keys()))
+conn.commit()
 
 # Close Connection
 cursor.close()
