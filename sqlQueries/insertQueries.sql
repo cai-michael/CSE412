@@ -1,4 +1,3 @@
-
 -- Pollutant Sample
 INSERT INTO pollutant_sample
 VALUES (DEFAULT, user_given_date, user_given_max_hour, user_given_max_value, user_given_aqi,
