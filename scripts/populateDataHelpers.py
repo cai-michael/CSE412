@@ -37,8 +37,8 @@ def addSample(cursor, uniqueId, maxHour, maxValue, aqi, units, mean, siteNum, pN
 
 def alterSequences(cursor, maxStateId, maxCountyId, maxSiteId):
     try:
-        cursor.execute(f'ALTER SEQUENCE state_id_seq RESTART WITH {maxStateId}')
-        cursor.execute(f'ALTER SEQUENCE site_id_seq RESTART WITH {maxSiteId}')
-        cursor.execute(f'ALTER SEQUENCE county_id_seq RESTART WITH {maxCountyId}')
+        cursor.execute(f'ALTER SEQUENCE state_state_code_seq RESTART WITH {maxStateId}')
+        cursor.execute(f'ALTER SEQUENCE survey_site_site_num_seq RESTART WITH {maxSiteId}')
+        cursor.execute(f'ALTER SEQUENCE county_county_code_seq RESTART WITH {maxCountyId}')
     except Error as e:
         pass
