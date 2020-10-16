@@ -13,7 +13,7 @@ def addSites(cursor, siteNum, address, city, state, county):
     cursor.execute(f'INSERT INTO in_county VALUES({siteNum}, {county})')
     cursor.execute(f'INSERT INTO in_state VALUES({siteNum}, {state})')
 
-def addSample(cursor, uniqueId, maxHour, maxValue, aqi, units, mean, siteNum, pNum):
+def addSample(cursor, uniqueId, maxHour, maxValue, aqi, units, mean, siteNum, pNum, dateLocal):
     cursor.execute(f'INSERT INTO pollutant_sample VALUES({uniqueId}, {dateLocal}, {maxHour}, {maxValue}, {aqi}, {units}, {mean})')
     cursor.execute(f'INSERT INTO taken_at VALUES({uniqueId}, {siteNum})')
     cursor.execute(f'INSERT INTO is_type VALUES({pNum}, {uniqueId})')

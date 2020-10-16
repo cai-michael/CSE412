@@ -1,6 +1,6 @@
 import json
 import csv
-#import psycopg2
+import psycopg2
 import populateDataHelpers as helpers
 
 # Path to the CSV we want to populate from
@@ -11,7 +11,8 @@ with open("../config.json") as json_config_file:
     config = json.load(json_config_file)['database']
 
 # Make Databse Connection
-#conn = psycopg2.connect("dbname=config['dbname'], user=config['username'], password=['password'], host=['hosturl']")
+conn = psycopg2.connect(dbname=config['dbname'], user=config['username'], password=['password'], host=['hosturl'])
+cursor = conn.cursor()
 
 # Create Dictionaries to ensure consistency
 pTypes = { 'NO2':1, 'O3':2, 'SO2':3, 'CO':4 }
@@ -65,4 +66,4 @@ for row in csvReader:
         maxValue = row[pName + ' 1st Max Value']
         maxHour = row[pName + ' 1st Max Hour']
         aqi = row[pName + ' AQI']
-        helpers.addSample(cursor, uniqueId, maxHour, maxValue, aqi, units, mean, siteNum, pNum)
+        helpers.addSample(cursor, uniqueId, maxHour, maxValue, aqi, units, mean, siteNum, pNum, dateLocal)
