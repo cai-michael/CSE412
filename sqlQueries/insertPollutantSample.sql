@@ -3,7 +3,7 @@
 
 --given a sample site that already exists
 INSERT INTO pollutant_sample
-VALUES (DEFAULT, user_given_date, user_given_max_hour, user_given_aqi,
+VALUES (DEFAULT, user_given_date, user_given_max_hour, user_given_max_value, user_given_aqi,
 	user_given_units, user_given_mean) RETURNING id
 
 --We need to prompt user for pollutant type if they pick one not in the DB
