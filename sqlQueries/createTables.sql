@@ -6,7 +6,8 @@ CREATE TABLE pollutant_type(
 CREATE TABLE pollutant_sample(
     id serial PRIMARY KEY,
     date_local TIMESTAMP,
-    max_hour REAL,
+    max_hour INT,
+    max_value INT,
     aqi INT,
     units VARCHAR (255),
     mean DOUBLE PRECISION
