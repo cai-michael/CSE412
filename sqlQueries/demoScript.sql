@@ -1,3 +1,5 @@
+-- Drop all of the tables and create them again before running the demo
+
 -- Run populateData.py using Python 3 to import some data into the tables
 
 -- Main Tables to show SELECT *
