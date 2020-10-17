@@ -2,18 +2,19 @@
 
 -- Run populateData.py using Python 3 to import some data into the tables
 
+-- Uncomment the one to demonstrate for the sake of time
 -- Main Tables to show SELECT *
-SELECT * FROM pollutant_sample;
-SELECT * FROM pollutant_type;
-SELECT * FROM survey_site;
-SELECT * FROM county;
-SELECT * FROM state;
+--SELECT * FROM pollutant_sample;
+--SELECT * FROM pollutant_type;
+--SELECT * FROM survey_site;
+--SELECT * FROM county;
+--SELECT * FROM state;
 
 -- Relationship Tables to show SELECT *
-SELECT * FROM is_type;
-SELECT * FROM taken_at;
-SELECT * FROM in_county;
-SELECT * FROM in_state;
+--SELECT * FROM is_type;
+--SELECT * FROM taken_at;
+--SELECT * FROM in_county;
+--SELECT * FROM in_state;
 
 -- Demonstrating Insert
 INSERT INTO pollutant_sample VALUES(DEFAULT, '10-17-2020', 12, 1000, 1000, 'parts per 100', 99.999);
