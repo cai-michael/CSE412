@@ -14,6 +14,7 @@ with open("../config.json") as json_config_file:
 conn = psycopg2.connect(dbname=config['dbname'], user=config['username'], password=config['password'], host=config['hosturl'])
 cursor = conn.cursor()
 print('Established Connection to database: ' + config['dbname'])
+errorCount = []
 
 # Create Dictionaries to ensure consistency
 pTypes = { 'NO2':1, 'O3':2, 'SO2':3, 'CO':4 }
@@ -21,30 +22,30 @@ sites = { }
 counties = { }
 states = { }
 
-populateTypes(cursor, pTypes)
+errorCount.extend(populateTypes(cursor, pTypes))
 
 # Open the CSV and start populating
 counter = 0
 csvData = open(dataPath, newline='')
-csvReader = csv.DictReader(csvData, delimiter=',', quotechar='|')
+csvReader = csv.DictReader(csvData, delimiter=',', quotechar='\"')
 print('Adding samples from csv to database')
 for row in csvReader:
     # Populate State if not already
     state = row['State Code']
     if state not in states:
-        addState(cursor, state, row['State'])
+        errorCount.extend(addState(cursor, state, row['State']))
         states[state] = row['State']
     
     # Populate County if not already
     county = row['County Code']
     if county not in counties:
-        addCounty(cursor, county, row['County'])
+        errorCount.extend(addCounty(cursor, county, row['County']))
         counties[county] = row['County']
     
     # Populate Sites if not already
     siteNum = row['Site Num']
     if siteNum not in sites:
-        addSite(cursor, siteNum, row['Address'], row['City'], state, county)
+        errorCount.extend(addSite(cursor, siteNum, row['Address'], row['City'], state, county))
         sites[siteNum] = row['Address']
     
     # Grab Date
@@ -61,7 +62,7 @@ for row in csvReader:
         aqi = row[pName + ' AQI']
         if aqi == '':
             aqi = 'NULL'
-        addSample(cursor, uniqueId, maxHour, maxValue, aqi, units, mean, siteNum, pNum, dateLocal)
+        errorCount.extend(addSample(cursor, uniqueId, maxHour, maxValue, aqi, units, mean, siteNum, pNum, dateLocal))
         conn.commit()
         
     if counter % (len(pTypes) * 10) == 0:
@@ -71,10 +72,12 @@ for row in csvReader:
 print(f'A total of {counter} samples have been added to the database')
 
 # Alter the sequences so inserts work ok
-alterSequences(cursor, max(states.keys()), max(counties.keys()), max(sites.keys()))
+errorCount.extend(alterSequences(cursor, max(states.keys()), max(counties.keys()), max(sites.keys()), counter+1))
 conn.commit()
 print('Altered Serial Sequences')
 
+# Check for Errors
+print('Encountered ' + str(len(errorCount)) + ' Errors while processing csv')
 # Close Connection
 cursor.close()
 conn.close()
