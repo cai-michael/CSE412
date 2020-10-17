@@ -11,10 +11,14 @@ db_name = rds_config.db_name
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
+# Make Databse Connection
+conn = psycopg2.connect(dbname=config['dbname'], user=config['username'], password=config['password'], host=config['hosturl'])
+cursor = conn.cursor()
+print('Established Connection to database: ' + config['dbname'])
+errorCount = []
+
 try:
-    conn = psycopg2.connect(dbname=suppliers, 
-                            user=postgres, 
-                            password=postgres)
+    conn = psycopg2.connect(dbname=config['dbname'], user=config['username'], password=config['password'], host=config['hosturl'])
 except pymysql.MySQLError as e:
     logger.error("ERROR: Unexpected error: Could not connect to MySQL instance.")
     logger.error(e)
