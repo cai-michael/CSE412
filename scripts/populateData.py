@@ -72,7 +72,7 @@ for row in csvReader:
 print(f'A total of {counter} samples have been added to the database')
 
 # Alter the sequences so inserts work ok
-errorCount.extend(alterSequences(cursor, max(states.keys()), max(counties.keys()), max(sites.keys()), counter))
+errorCount.extend(alterSequences(cursor, max(states.keys()), max(counties.keys()), max(sites.keys()), counter+1))
 conn.commit()
 print('Altered Serial Sequences')
 
