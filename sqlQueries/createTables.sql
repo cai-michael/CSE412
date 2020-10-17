@@ -62,6 +62,7 @@ CREATE TABLE in_county(
     FOREIGN KEY (county_code)
         REFERENCES county (county_code)
         ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
 CREATE TABLE state(
@@ -80,6 +81,7 @@ CREATE TABLE in_state(
     FOREIGN KEY (state_code)
         REFERENCES state (state_code)
         ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
 
