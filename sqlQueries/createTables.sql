@@ -6,7 +6,8 @@ CREATE TABLE pollutant_type(
 CREATE TABLE pollutant_sample(
     id serial PRIMARY KEY,
     date_local TIMESTAMP,
-    max_hour REAL,
+    max_hour INT,
+    max_value INT,
     aqi INT,
     units VARCHAR (255),
     mean DOUBLE PRECISION
@@ -61,6 +62,7 @@ CREATE TABLE in_county(
     FOREIGN KEY (county_code)
         REFERENCES county (county_code)
         ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
 CREATE TABLE state(
@@ -79,6 +81,7 @@ CREATE TABLE in_state(
     FOREIGN KEY (state_code)
         REFERENCES state (state_code)
         ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
 
