@@ -1,29 +1,29 @@
 -- Run populateData.py using Python 3 to import some data into the tables
 
 -- Main Tables to show SELECT *
-SELECT * FROM pollutant_sample
-SELECT * FROM pollutant_type
-SELECT * FROM survey_site
-SELECT * FROM county
-SELECT * FROM state
+SELECT * FROM pollutant_sample;
+SELECT * FROM pollutant_type;
+SELECT * FROM survey_site;
+SELECT * FROM county;
+SELECT * FROM state;
 
 -- Relationship Tables to show SELECT *
-SELECT * FROM is_type
-SELECT * FROM taken_at
-SELECT * FROM in_county
-SELECT * FROM in_state
+SELECT * FROM is_type;
+SELECT * FROM taken_at;
+SELECT * FROM in_county;
+SELECT * FROM in_state;
 
 -- Demonstrating Insert
-INSERT INTO pollutant_sample VALUES(DEFAULT, '10-17-2020', 12, 1000, 1000, 'parts per 100', 99.999)
-SELECT * FROM pollutant_sample WHERE date_local = '10-17-2020'
+INSERT INTO pollutant_sample VALUES(DEFAULT, '10-17-2020', 12, 1000, 1000, 'parts per 100', 99.999);
+SELECT * FROM pollutant_sample WHERE date_local = '10-17-2020';
 
 -- Demonstrating Update
-UPDATE pollutant_sample SET units = 'parts per googleplex' WHERE date_local = '10-17-2020'
-SELECT * FROM pollutant_sample WHERE units = 'parts per googleplex'
+UPDATE pollutant_sample SET units = 'parts per googleplex' WHERE date_local = '10-17-2020';
+SELECT * FROM pollutant_sample WHERE units = 'parts per googleplex';
 
 -- Demonstrating Delete
-DELETE FROM pollutant_sample WHERE units = 'parts per googleplex'
-SELECT * FROM pollutant_sample WHERE units = 'parts per googleplex'
+DELETE FROM pollutant_sample WHERE units = 'parts per googleplex';
+SELECT * FROM pollutant_sample WHERE units = 'parts per googleplex';
 
 -- Demonstrate Two Selection Queries
 -- We can create a line graph from the information from 1645 E ROOSEVELT ST-CENTRAL PHOENIX STN
@@ -58,4 +58,4 @@ INNER JOIN county
 WHERE ptype.name = 'NO2'
 	AND date_local >= '1-1-2000'
 	AND date_local <= '1-1-2020'
-ORDER BY county.county_name, psample.date_local
+ORDER BY county.county_name, psample.date_local;
