@@ -9,7 +9,7 @@ from populateDataHelpers import *
 startTime = time.time()
 
 # Path to the CSV we want to populate from
-dataPath = '../sampleData.csv'
+dataPath = '../pollution_us_2000_2016.csv'
 
 # Open Config File for Database Credentials
 with open("../config.json") as json_config_file:
@@ -74,6 +74,7 @@ for row in csvReader:
         now = time.localtime()
         current_time = time.strftime("%H:%M:%S", now)
         print(f'Added {counter} rows of data at ', current_time)
+        print(f'Current Errors At: {str(len(errorCount))}')
 
 # Print finished confirmation
 conn.commit()
