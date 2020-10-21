@@ -88,6 +88,8 @@ print('Altered Serial Sequences')
 # Check for Errors
 print('Encountered ' + str(len(errorCount)) + ' Errors while processing csv')
 print('Entire Process Took:', time.time() - startTime, 'seconds')
+with open("error.txt", 'w') as errorLog:
+    errorLog.write(errorCount)
 
 # Close Connection
 cursor.close()
