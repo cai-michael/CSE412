@@ -1,7 +1,12 @@
 import json
 import csv
 import psycopg2
+from datetime import datetime
+import time
 from populateDataHelpers import *
+
+# Start Recording Timings
+startTime = time.time()
 
 # Path to the CSV we want to populate from
 dataPath = '../sampleData.csv'
@@ -63,12 +68,15 @@ for row in csvReader:
         if aqi == '':
             aqi = 'NULL'
         errorCount.extend(addSample(cursor, uniqueId, maxHour, maxValue, aqi, units, mean, siteNum, pNum, dateLocal))
-        conn.commit()
         
-    if counter % (len(pTypes) * 10) == 0:
-        print(f'Added {counter} rows of data so far')
+    if counter % (len(pTypes) * 250) == 0:
+        conn.commit()
+        now = time.localtime()
+        current_time = time.strftime("%H:%M:%S", now)
+        print(f'Added {counter} rows of data at ', current_time)
 
 # Print finished confirmation
+conn.commit()
 print(f'A total of {counter} samples have been added to the database')
 
 # Alter the sequences so inserts work ok
@@ -78,6 +86,8 @@ print('Altered Serial Sequences')
 
 # Check for Errors
 print('Encountered ' + str(len(errorCount)) + ' Errors while processing csv')
+print('Entire Process Took:', time.time() - startTime, 'seconds')
+
 # Close Connection
 cursor.close()
 conn.close()
