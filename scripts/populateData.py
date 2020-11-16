@@ -9,7 +9,7 @@ from populateDataHelpers import *
 startTime = time.time()
 
 # Path to the CSV we want to populate from
-dataPath = '../pollution_us_2000_2016.csv'
+dataPath = '../sampleData.csv'
 
 # Open Config File for Database Credentials
 with open("../config.json") as json_config_file:
