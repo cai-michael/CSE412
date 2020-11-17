@@ -16,7 +16,10 @@ with open("../config.json") as json_config_file:
     config = json.load(json_config_file)['database']
 
 # Make Databse Connection
-conn = psycopg2.connect(dbname=config['dbname'], user=config['username'], password=config['password'], host=config['hosturl'])
+conn = psycopg2.connect(dbname=config['dbname'], 
+                        user=config['username'], 
+                        password=config['password'], 
+                        host=config['hosturl'])
 cursor = conn.cursor()
 print('Established Connection to database: ' + config['dbname'])
 errorCount = []
@@ -73,10 +76,11 @@ for row in csvReader:
         conn.commit()
         now = time.localtime()
         current_time = time.strftime("%H:%M:%S", now)
-        print(f'Added {counter} rows of data at ', current_time)
+        print(f'Added {counter // 4} rows of data at ', current_time)
         print(f'Current Errors At: {str(len(errorCount))}')
 
 # Print finished confirmation
+print('Finished with loop, performing final commit')
 conn.commit()
 print(f'A total of {counter} samples have been added to the database')
 

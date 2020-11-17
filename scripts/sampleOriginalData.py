@@ -16,11 +16,12 @@ print(df.info(verbose=True))
 sample = df.sample(n=50, random_state=43)
 """
 
-# Sample datapoints only from Arizona and starting in 2013
-dfAZ = df.loc[df['State'] == 'Arizona']
-dfAZ['Date Local'] = pd.to_datetime(dfAZ['Date Local'])
-start_date = '1/1/2013'
-sample = dfAZ.loc[dfAZ['Date Local'] > start_date]
+# Sample datapoints only from some of the cities in Arizona and California and starting in 2016
+dfLocations = df.loc[df['State'].isin(['Arizona', 'California'])]
+dfLocations = df.loc[df['City'].isin(['Phoenix', 'Tucson', 'Oakland', 'Capitan'])]
+dfLocations['Date Local'] = pd.to_datetime(dfLocations['Date Local'])
+start_date = '1/1/2016'
+sample = dfLocations.loc[dfLocations['Date Local'] > start_date]
 
 # Save Sample to CSV
 print(sample.info(verbose=True))
