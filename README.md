@@ -17,6 +17,8 @@ Group Members:
 
 client - contains the React JS client for our project
 
+lambdaFunctions - contains our setup for AWS Lambda to hit our database
+
 sqlQueries - contains the sqlQueries we used for creating out database and retrieving data
 
-sampleData - contains 1000 lines of sample data to go into the database
+sampleData - contains samples from Jan-Mar 2016 for the cities of Phoenix, Tucson, Oakland, and Capitan
