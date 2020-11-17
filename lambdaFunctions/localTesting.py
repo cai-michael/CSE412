@@ -1,4 +1,4 @@
-import controller
+import lambda_function
 
 passedJson = {
     "queryType": "pollutantByState",
@@ -6,4 +6,5 @@ passedJson = {
         "state" : "Arizona"
     }
 }
-controller.handler(passedJson, None)
+
+lambda_function.lambda_handler(passedJson, None)
