@@ -4,7 +4,7 @@
 SELECT psample.date_local, psample.id, ptype.name, psample.mean
 FROM pollutant_sample AS psample
 INNER JOIN taken_at AS ta
-	ON psample.sample_id = ta.sample_id
+	ON psample.id = ta.sample_id
 INNER JOIN in_state
 	ON ta.site_num = in_state.site_num
 INNER JOIN is_type AS it
@@ -22,7 +22,7 @@ ORDER BY date_local;
 SELECT psample.date_local, psample.id, ptype.name, psample.mean
 FROM pollutant_sample AS psample
 INNER JOIN taken_at AS ta
-	ON psample.sample_id = ta.sample_id
+	ON psample.id = ta.sample_id
 INNER JOIN in_state
 	ON ta.site_num = in_state.site_num
 INNER JOIN is_type AS it
