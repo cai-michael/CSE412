@@ -1,7 +1,12 @@
 import json
 import csv
 import psycopg2
+from datetime import datetime
+import time
 from populateDataHelpers import *
+
+# Start Recording Timings
+startTime = time.time()
 
 # Path to the CSV we want to populate from
 dataPath = '../sampleData.csv'
@@ -11,7 +16,10 @@ with open("../config.json") as json_config_file:
     config = json.load(json_config_file)['database']
 
 # Make Databse Connection
-conn = psycopg2.connect(dbname=config['dbname'], user=config['username'], password=config['password'], host=config['hosturl'])
+conn = psycopg2.connect(dbname=config['dbname'], 
+                        user=config['username'], 
+                        password=config['password'], 
+                        host=config['hosturl'])
 cursor = conn.cursor()
 print('Established Connection to database: ' + config['dbname'])
 errorCount = []
@@ -63,12 +71,17 @@ for row in csvReader:
         if aqi == '':
             aqi = 'NULL'
         errorCount.extend(addSample(cursor, uniqueId, maxHour, maxValue, aqi, units, mean, siteNum, pNum, dateLocal))
-        conn.commit()
         
-    if counter % (len(pTypes) * 10) == 0:
-        print(f'Added {counter} rows of data so far')
+    if counter % (len(pTypes) * 250) == 0:
+        conn.commit()
+        now = time.localtime()
+        current_time = time.strftime("%H:%M:%S", now)
+        print(f'Added {counter // 4} rows of data at ', current_time)
+        print(f'Current Errors At: {str(len(errorCount))}')
 
 # Print finished confirmation
+print('Finished with loop, performing final commit')
+conn.commit()
 print(f'A total of {counter} samples have been added to the database')
 
 # Alter the sequences so inserts work ok
@@ -78,6 +91,10 @@ print('Altered Serial Sequences')
 
 # Check for Errors
 print('Encountered ' + str(len(errorCount)) + ' Errors while processing csv')
+print('Entire Process Took:', time.time() - startTime, 'seconds')
+with open("error.txt", 'w') as errorLog:
+    errorLog.write(errorCount)
+
 # Close Connection
 cursor.close()
 conn.close()
