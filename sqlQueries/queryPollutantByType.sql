@@ -18,7 +18,7 @@ ORDER BY psample.date_local
 --Returns all samples for a particular pollutant and their site numbers
 --The data is ordered by date_local which is useful for creating a multi line linegraph
 --Inputs (user_provided_pollutant_name)
-SELECT psample.date_local, ptype.name, psample.mean, ta.site_num 
+SELECT psample.date_local, AVG(psample.mean), ta.site_num 
 FROM pollutant_sample AS psample
 INNER JOIN taken_at AS ta
 	ON psample.id = ta.sample_id
@@ -27,7 +27,8 @@ INNER JOIN is_type
 INNER JOIN pollutant_type AS ptype
     ON ptype.id = is_type.type_id
 WHERE ptype.name = user_provided_pollutant_name
-ORDER BY psample.date_local
+GROUP BY psample.date_local, ta.site_num
+ORDER BY psample.date_local, ta.site_num
 
 ----Add State Information---------------------
 --Returns all samples for a particular pollutant within the given timeframe and their state
