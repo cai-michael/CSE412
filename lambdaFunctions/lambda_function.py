@@ -19,7 +19,7 @@ hosturl = os.environ['hosturl']
 with open("../config.json") as json_config_file:
     config = json.load(json_config_file)['database']
 
-# Make Databse Connection
+# Make Database Connection
 dbname = config['dbname']
 username = config['username']
 password = config['password']
@@ -52,9 +52,10 @@ def lambda_handler(event, context):
         returnValue = queries[queryToCall](body['parameters'], cursor)
         conn.commit()
     except:
+        res = f'Something went wrong with the query: {body}'
         return {
             'statusCode': 500,
-            'body': 'Something went wrong with the query'
+            'body': res
         }
     
     return {

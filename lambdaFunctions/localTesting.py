@@ -1,4 +1,5 @@
 import lambda_function
+import json
 
 passedJson = {
     "queryType": "pollutantByState",
@@ -7,4 +8,8 @@ passedJson = {
     }
 }
 
-lambda_function.lambda_handler(passedJson, None)
+body = {
+    'body': json.dumps(passedJson)
+}
+
+lambda_function.lambda_handler(body, None)
