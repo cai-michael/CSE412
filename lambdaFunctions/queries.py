@@ -25,7 +25,7 @@ def pollutantByState(parameters, cursor):
                                 ON ptype.id = it.type_id
                             WHERE in_state.state_code = %s
                             ORDER BY date_local"""
-
+    
     cursor.execute(findpollutantsQuery, stateCode)
     results = cursor.fetchall()
 

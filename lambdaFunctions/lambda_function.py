@@ -39,15 +39,17 @@ def lambda_handler(event, context):
     """
     This function handles input and determines which query to execute
     """
+    body = json.loads(event['body'])
     try:
-        queryToCall = event['queryType']
+        queryToCall = body['queryType']
     except:
+        res = f'Could not find your query/Has not been implemented: {queryToCall}'
         return {
             'statusCode': 400,
-            'body': 'Could not find your query/Has not been implemented'
+            'body': res
         }
     try:
-        returnValue = queries[queryToCall](event['parameters'], cursor)
+        returnValue = queries[queryToCall](body['parameters'], cursor)
         conn.commit()
     except:
         return {
