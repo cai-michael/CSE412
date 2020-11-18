@@ -31,6 +31,7 @@ cursor = conn.cursor()
 
 # Create a Dictionary of Functions to Call
 queries = {
+    "testRestAPI": testRestAPI,
     "pollutantByState": pollutantByState
 }
 
