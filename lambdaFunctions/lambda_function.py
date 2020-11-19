@@ -32,7 +32,9 @@ cursor = conn.cursor()
 # Create a Dictionary of Functions to Call
 queries = {
     "testRestAPI": testRestAPI,
-    "pollutantByState": pollutantByState
+    "pollutantByState": pollutantByState,
+    "pollutantBySite": pollutantBySite,
+    "siteMeansForSpecifiedPollutant": siteMeansForSpecifiedPollutant
 }
 
 def lambda_handler(event, context):
