@@ -1,6 +1,26 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+const axios = require('axios');
+
+const ENDPOINT = process.env.REACT_APP_ENDPOINT;
+const API_KEY = process.env.REACT_APP_API_KEY;
+
+// This sends the POST request to AWS Lambda
+async function testRestAPI(endpoint, key, body) {
+  try {
+    const result = await axios.post(endpoint, body, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': key
+      }
+    });
+    return result.data;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
 
 function App() {
   //const [params, showGraph] = useState(0);
@@ -29,5 +49,15 @@ function App() {
     </div> 
   );
 }
+
+const body = {
+  "queryType": "pollutantByState",
+  "parameters": {
+    "state": "Arizona"
+  }
+};
+
+let result;
+testRestAPI(ENDPOINT, API_KEY, body).then(res => {result = res; console.log(result)})
 
 export default App;
