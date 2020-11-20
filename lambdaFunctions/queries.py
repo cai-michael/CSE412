@@ -6,12 +6,7 @@ def testRestAPI(parameters, cursor):
 
 def pollutantByState(parameters, cursor):
     stateName = (parameters['state'], )
-    findStateQuery =  """SELECT state_code FROM state
-                        WHERE state_name = %s;""" # Note: no quotes
-    cursor.execute(findStateQuery, stateName)
-    results = cursor.fetchall()
-    
-    stateCode = results[0][0]
+    stateCode = findStateCode(stateName, cursor)
 
     findpollutantsQuery =  f"""SELECT psample.date_local, ptype.name, AVG(psample.mean)
                             FROM pollutant_sample AS psample
@@ -89,10 +84,67 @@ def insertState(parameters, cursor):
 
 def insertCounty(parameters, cursor):
     countyName = (parameters['state'], )
-    countyQuery = "INSERT INTO county VALUES (DEFAULT, %s) RETURNING county_code;""
+    countyQuery = "INSERT INTO county VALUES (DEFAULT, %s) RETURNING county_code;"
     cursor.execute(countyQuery, countyName)
     results = cursor.fetchall()
     
     countyCode = results[0][0]
     return f"Successfully inserted {countyName} as id {countyCode}"
 
+def insertSite(parameters, cursor):
+    county = (parameters['county'], )
+    city = (parameters['city'], )
+    state = (parameters['state'], )
+    address = (parameters['address'], )
+    
+    siteQuery = "INSERT INTO survey_site VALUES (DEFAULT, %s, %s) RETURNING site_num"
+    cursor.execute(siteQuery, address, city)
+    results = cursor.fetchall()
+    siteNum = results[0][0]
+
+
+    inCounty = "INSERT INTO in_county VALUES (DEFAULT, generated_site_num, user_chosen_county_code)"
+    inState = "INSERT INTO in_state VALUES (DEFAULT, generated_site_num, user_chosen_state_code)"
+
+def insertPollutantSample(parameters, cursor):
+    pollutantName = (parameters['pollutant'], )
+
+    maxHour = (parameters['maxhour'], )
+    date = (parameters['date'], )
+    value = (parameters['value'], )
+    aqi = (parameters['aqi'], )
+    units = (parameters['units'], )
+    mean = (parameters['mean'], )
+
+    insertPollutant =  """INSERT INTO pollutant_sample
+                            VALUES (DEFAULT, user_given_date, user_given_max_hour, user_given_max_value, user_given_aqi,
+	                        user_given_units, user_given_mean) RETURNING id"""
+                                    
+    cursor.execute(insertPollutant, pollutantName)
+    results = cursor.fetchall()
+
+    sampleId = results[0][0]
+
+    insertType = "INSERT INTO is_type VALUES (user_chosen_type_id, generated_sample_id)"
+    insertSite = "INSERT INTO taken_at VALUES (generated_sample_id, user_chosen_site_num)"
+
+    return results
+    
+# Helper Functions
+
+def findCountyCode(county, cursor):
+    findCountyQuery =  """SELECT state_code FROM state
+                        WHERE state_name = %s;""" # Note: no quotes
+    cursor.execute(findCountyQuery, county)
+
+    results = cursor.fetchall()
+    countyCode = results[0][0]
+    return countyCode
+
+def findStateCode(state, cursor):
+    findStateQuery =  """SELECT state_code FROM state
+                        WHERE state_name = %s;""" # Note: no quotes
+    cursor.execute(findStateQuery, state)
+    results = cursor.fetchall()
+    stateCode = results[0][0]
+    return stateCode
