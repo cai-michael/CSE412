@@ -46,7 +46,12 @@ def lambda_handler(event, context):
         res = f'Could not find your query/Has not been implemented: {queryToCall}'
         return {
             'statusCode': 400,
-            'body': res
+            'body': res,
+            'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+            }
         }
     try:
         returnValue = queries[queryToCall](body['parameters'], cursor)
@@ -55,10 +60,20 @@ def lambda_handler(event, context):
         res = f'Something went wrong with the query: {body}'
         return {
             'statusCode': 500,
-            'body': res
+            'body': res,
+            'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+            }
         }
     
     return {
         'statusCode': 200,
-        'body': json.dumps(returnValue, indent=4, sort_keys=True, default=str)
+        'body': json.dumps(returnValue, indent=4, sort_keys=True, default=str),
+        'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+        }
     }
