@@ -50,7 +50,7 @@ const body = {
   }
 };
 
-const result = testRestAPI(ENDPOINT, API_KEY, body)
-console.log(result)
+let result;
+testRestAPI(ENDPOINT, API_KEY, body).then(res => {result = res; console.log(result)})
 
 export default App;

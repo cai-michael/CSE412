@@ -1,5 +1,3 @@
-import json
-
 def makeResponse(statusCode, body):
     return {
         'statusCode': statusCode,
