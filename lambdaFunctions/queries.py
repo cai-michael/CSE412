@@ -77,3 +77,22 @@ def siteMeansForSpecifiedPollutant(parameters, cursor):
     results = cursor.fetchall()
 
     return results
+
+def insertState(parameters, cursor):
+    stateName = (parameters['state'], )
+    stateQuery = "INSERT INTO state VALUES (DEFAULT, %s) RETURNING state_code"
+    cursor.execute(stateQuery, stateName)
+    results = cursor.fetchall()
+    
+    stateCode = results[0][0]
+    return f"Successfully inserted {stateName} as id {stateCode}"
+
+def insertCounty(parameters, cursor):
+    countyName = (parameters['state'], )
+    countyQuery = "INSERT INTO county VALUES (DEFAULT, %s) RETURNING county_code;""
+    cursor.execute(countyQuery, countyName)
+    results = cursor.fetchall()
+    
+    countyCode = results[0][0]
+    return f"Successfully inserted {countyName} as id {countyCode}"
+
