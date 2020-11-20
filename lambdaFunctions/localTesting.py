@@ -2,9 +2,9 @@ import lambda_function
 import json
 
 passedJson = {
-    "queryType": "pollutantByState",
+    "queryType": "siteMeansForSpecifiedPollutant",
     "parameters": {
-        "state" : "Arizona"
+        "pollutant" : "CO"
     }
 }
 
@@ -12,4 +12,4 @@ body = {
     'body': json.dumps(passedJson)
 }
 
-lambda_function.lambda_handler(body, None)
+print(lambda_function.lambda_handler(body, None))
