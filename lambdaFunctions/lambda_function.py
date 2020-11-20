@@ -4,6 +4,7 @@ import psycopg2
 import os
 import json
 from queries import *
+from helpers import *
 
 # DBMS Settings
 """
@@ -46,21 +47,13 @@ def lambda_handler(event, context):
         queryToCall = body['queryType']
     except:
         res = f'Could not find your query/Has not been implemented: {queryToCall}'
-        return {
-            'statusCode': 400,
-            'body': res
-        }
+        return makeResponse(400, res)
     try:
         returnValue = queries[queryToCall](body['parameters'], cursor)
         conn.commit()
     except:
         res = f'Something went wrong with the query: {body}'
-        return {
-            'statusCode': 500,
-            'body': res
-        }
+        return makeResponse(500, res)
     
-    return {
-        'statusCode': 200,
-        'body': json.dumps(returnValue, indent=4, sort_keys=True, default=str)
-    }
+    jsonDump = json.dumps(returnValue, indent=4, sort_keys=True, default=str)
+    return makeResponse(200, jsonDump)
