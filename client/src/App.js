@@ -3,23 +3,30 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  //const [params, showGraph] = useState(0);
+  const dropdown_data = ["a", "b", "c"];
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header>
+        <h1>CSE 412 - Air Pollutant Data</h1>
+        <p>Madison Kuhler, Michael Cai, Brennan Kuhman, Jack Summers, Jacob Farabee, Kesav Kadalazhi</p>
       </header>
-    </div>
+
+      <div className="App-body">
+        <div className="Get-data">
+          {dropdown_data}
+          
+          <form>
+            <select>
+              {dropdown_data.map((x) => <option key={x}>{x}</option>)}
+            </select>
+            <input type="submit" value="View"  />
+          </form>
+
+        </div> {/* END GET-DATA */}
+      </div> {/* END APP-BODY */}
+    </div> 
   );
 }
 
