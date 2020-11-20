@@ -1,63 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-const axios = require('axios');
+import React, {useState, useEffect} from 'react'
+import BarChart from './BarChart'
+import './App.css'
 
-const ENDPOINT = process.env.REACT_APP_ENDPOINT;
-const API_KEY = process.env.REACT_APP_API_KEY;
-
-// This sends the POST request to AWS Lambda
-async function testRestAPI(endpoint, key, body) {
-  try {
-    const result = await axios.post(endpoint, body, {
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': key
-      }
-    });
-    return result.data;
-  } catch (err) {
-    console.log(err);
-    return null;
-  }
+const getData = (endpoint, key, body) => {
+  return fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': key,
+    },
+    body: JSON.stringify(body),
+  }).then((r) => r.json())
 }
 
-function App() {
-  //const [params, showGraph] = useState(0);
-  const dropdown_data = ["a", "b", "c"];
+export default () => {
+  const [data, setData] = useState([])
 
-  return (
-    <div className="App">
-      <header>
-        <h1>CSE 412 - Air Pollutant Data</h1>
-        <p>Madison Kuhler, Michael Cai, Brennan Kuhman, Jack Summers, Jacob Farabee, Kesav Kadalazhi</p>
-      </header>
+  useEffect(() => {
+    const effect = async () => {
+      const ENDPOINT = process.env.REACT_APP_ENDPOINT
+      const API_KEY = process.env.REACT_APP_API_KEY
+      const body = {queryType: 'pollutantByState', parameters: {state: 'Arizona'}}
+      setData(await getData(ENDPOINT, API_KEY, body))
+    }
+    effect()
+  }, [])
 
-      <div className="App-body">
-        <div className="Get-data">
-          {dropdown_data}
-          
-          <form>
-            <select>
-              {dropdown_data.map((x) => <option key={x}>{x}</option>)}
-            </select>
-            <input type="submit" value="View"  />
-          </form>
-
-        </div> {/* END GET-DATA */}
-      </div> {/* END APP-BODY */}
-    </div> 
-  );
+  return <BarChart data={data} />
 }
-
-const body = {
-  "queryType": "pollutantByState",
-  "parameters": {
-    "state": "Arizona"
-  }
-};
-
-let result;
-testRestAPI(ENDPOINT, API_KEY, body).then(res => {result = res; console.log(result)})
-
-export default App;
