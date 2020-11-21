@@ -15,9 +15,9 @@ export default ({data}) => {
   const container = useRef(null)
 
   useEffect(() => {
-    const width = 1335
-    const height = 800
-    const padding = 30
+    const width = 1250
+    const height = 750
+    const padding = 50
 
     const svg = select(container.current)
     svg.attr('width', width).attr('height', height)
