@@ -15,6 +15,7 @@ export default ({data}) => {
   const container = useRef(null)
 
   useEffect(() => {
+    // TODO: programmatically fetch width and height
     const width = 1250
     const height = 750
     const padding = 50
@@ -30,6 +31,7 @@ export default ({data}) => {
     const yScale = scaleLinear()
       .domain([0, max(data.map((d) => d[2]))])
       .range([height - padding, padding])
+      .clamp(true)
 
     const circles = svg.selectAll('circle').data(data)
 
