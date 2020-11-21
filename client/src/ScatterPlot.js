@@ -9,7 +9,7 @@ import {
   axisLeft,
   timeWeek,
 } from 'd3'
-import './BarChart.css'
+import './ScatterPlot.css'
 
 const getColor = (pollutant) => {
   if (pollutant === 'O3') return 'orange'

@@ -1,5 +1,5 @@
 import React, {Fragment, useState, useEffect} from 'react'
-import BarChart from './BarChart'
+import ScatterPlot from './ScatterPlot'
 import './App.css'
 
 const getData = (endpoint, key, body) => {
@@ -118,7 +118,7 @@ export default () => {
       <br />
       <PollutantSelector {...{pollutants, setPollutants}} />
       <br />
-      <BarChart {...{data}} />
+      <ScatterPlot {...{data}} />
     </>
   )
 }
