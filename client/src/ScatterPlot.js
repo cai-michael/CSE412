@@ -11,14 +11,6 @@ import {
 } from 'd3'
 import './ScatterPlot.css'
 
-const getColor = (pollutant) => {
-  if (pollutant === 'O3') return 'orange'
-  else if (pollutant === 'CO') return 'blue'
-  else if (pollutant === 'SO2') return 'red'
-  else if (pollutant === 'NO2') return 'brown'
-  else return 'black'
-}
-
 export default ({data}) => {
   const container = useRef(null)
 
@@ -42,7 +34,7 @@ export default ({data}) => {
     const circles = svg.selectAll('circle').data(data)
 
     circles
-      .attr('fill', (d) => getColor(d[1]))
+      .attr('fill', (d) => d[3])
       .transition()
       .attr('cx', (d) => xScale(d[0]))
       .attr('cy', (d) => yScale(d[2]))
@@ -51,7 +43,7 @@ export default ({data}) => {
     circles
       .enter()
       .append('circle')
-      .attr('fill', (d) => getColor(d[1]))
+      .attr('fill', (d) => d[3])
       .transition()
       .attr('cx', (d) => xScale(d[0]))
       .attr('cy', (d) => yScale(d[2]))

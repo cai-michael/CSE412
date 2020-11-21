@@ -66,6 +66,14 @@ const PollutantSelector = ({pollutants, setPollutants}) => {
   )
 }
 
+const colorPollutant = (pollutant) => {
+  if (pollutant === 'O3') return 'orange'
+  else if (pollutant === 'CO') return 'blue'
+  else if (pollutant === 'SO2') return 'red'
+  else if (pollutant === 'NO2') return 'brown'
+  else return 'black'
+}
+
 export default () => {
   const [states, setStates] = useState([
     {id: 0, name: 'Arizona', checked: true},
@@ -97,7 +105,7 @@ export default () => {
         setData(
           results
             .filter((d) => selectedPollutants.includes(d[1]))
-            .map((d) => [new Date(d[0]), d[1], d[2]]),
+            .map((d) => [new Date(d[0]), d[1], d[2], colorPollutant(d[1])]),
         )
       }
 
