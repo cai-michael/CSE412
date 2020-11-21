@@ -76,8 +76,8 @@ const colorPollutant = (pollutant) => {
 
 export default () => {
   const [states, setStates] = useState([
-    {id: 0, name: 'Arizona', checked: true},
-    {id: 1, name: 'California', checked: false},
+    {name: 'Arizona', checked: true},
+    {name: 'California', checked: false},
   ])
   const [pollutants, setPollutants] = useState([
     {name: 'O3', checked: true},
