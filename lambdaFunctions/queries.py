@@ -51,12 +51,12 @@ def pollutantBySite(parameters, cursor):
                                     
     cursor.execute(findpollutantsQuery)
     results = cursor.fetchall()
-
     return results
+
 
 def siteMeansForSpecifiedPollutant(parameters, cursor):
     pollutantName = (parameters['pollutant'], )
-    findpollutantsQuery =  """SELECT psample.date_local, AVG(psample.mean), ta.site_num 
+    findpollutantsQuery = """SELECT psample.date_local, AVG(psample.mean), ta.site_num 
                             FROM pollutant_sample AS psample
                             INNER JOIN taken_at AS ta
                                 ON psample.id = ta.sample_id
@@ -67,11 +67,49 @@ def siteMeansForSpecifiedPollutant(parameters, cursor):
                             WHERE ptype.name = %s
                             GROUP BY psample.date_local, ta.site_num
                             ORDER BY psample.date_local, ta.site_num"""
-                                    
     cursor.execute(findpollutantsQuery, pollutantName)
     results = cursor.fetchall()
 
     return results
+
+# delete queries
+
+
+def deleteState(parameters, cursor):
+    stateName = parameters['state']
+    stateQuery = "DELETE * FROM state WHERE state_name = %s"
+    cursor.execute(stateQuery, stateName)
+    results = cursor.fetchall()
+    stateCode = results[0][0]
+    return f"Successfully deleted {stateName} with ID {stateCode} from table."
+
+
+def deleteSite(parameters, cursor):
+    siteNum = parameters['site_num']
+    # ON DELETE CASCADE so only delete survey_site table entry
+    siteQuery = "DELETE * FROM survey_site WHERE site_num = %s"
+    cursor.execute(siteQuery, siteNum)
+    results = cursor.fetchall()
+    return f"Successfully deleted site with ID {siteNum} from table."
+
+
+def deletePollutantSample(parameters, cursor):
+    sampleId = parameters['id']
+    # ON DELETE CASCADE
+    sampleQuery = "DELETE * FROM pollutant_sample WHERE id = %s"
+    cursor.execute(sampleQuery, sampleId)
+    results = cursor.fetchall()
+    return f"Successfully deleted sample with ID {sampleId} from table."
+
+
+def deleteCounty(parameters, cursor):
+    countyCode = parameters['county_code']
+    countyQuery = "DELETE * FROM county WHERE county_code = %s"
+    cursor.execute(countyQuery, countyCode)
+    results = cursor.fetchall()
+    countyName = results[0][1]
+    return f"Successfully deleted {countyName} County with ID {countyCode} from table."
+
 
 def insertState(parameters, cursor):
     stateName = (parameters['state'], )
@@ -131,7 +169,6 @@ def insertPollutantSample(parameters, cursor):
     return results
     
 # Helper Functions
-
 def findCountyCode(county, cursor):
     findCountyQuery =  """SELECT state_code FROM state
                         WHERE state_name = %s;""" # Note: no quotes
