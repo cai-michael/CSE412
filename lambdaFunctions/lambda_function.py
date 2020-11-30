@@ -36,6 +36,12 @@ queries = {
     "pollutantByState": pollutantByState,
     "pollutantBySite": pollutantBySite,
     "siteMeansForSpecifiedPollutant": siteMeansForSpecifiedPollutant
+    "insertState": insertState,
+    "insertSite": insertSite,
+    "insertPollutantSample": insertPollutantSample,
+    "deleteState": deleteState,
+    "deleteSite": deleteSite,
+
 }
 
 def lambda_handler(event, context):
