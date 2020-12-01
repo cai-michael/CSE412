@@ -246,10 +246,9 @@ def insertPollutantSample(parameters, cursor):
     
 # Helper Functions
 def findCountyCode(county, cursor):
-    findCountyQuery =  """SELECT state_code FROM state
-                        WHERE state_name = %s;""" # Note: no quotes
+    findCountyQuery =  """SELECT county_code FROM county
+                        WHERE county_name = %s;""" # Note: no quotes
     cursor.execute(findCountyQuery, county)
-
     results = cursor.fetchall()
     countyCode = results[0][0]
     return countyCode

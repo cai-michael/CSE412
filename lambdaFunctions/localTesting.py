@@ -2,10 +2,12 @@ import lambda_function
 import json
 
 passedJson = {
-    "queryType": "pollutantByStateAndType",
+    "queryType": "pollutantByCountyAndType",
     "parameters": {
         "pollutant" : "CO",
-        "state": "California"
+        "state": "Arizona", 
+        "county": "Maricopa",
+        "city": "Phoenix"
     }
 }
 
