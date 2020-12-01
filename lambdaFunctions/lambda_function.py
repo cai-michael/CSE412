@@ -35,7 +35,7 @@ queries = {
     "testRestAPI": testRestAPI,
     "pollutantByState": pollutantByState,
     "pollutantBySite": pollutantBySite,
-    "siteMeansForSpecifiedPollutant": siteMeansForSpecifiedPollutant
+    "siteMeansForSpecifiedPollutant": siteMeansForSpecifiedPollutant,
     "insertState": insertState,
     "insertSite": insertSite,
     "insertPollutantSample": insertPollutantSample,
