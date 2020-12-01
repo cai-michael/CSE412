@@ -27,6 +27,31 @@ def pollutantByState(parameters, cursor):
 
     return results
 
+def pollutantByStateAndType(parameters, cursor):
+    stateName = (parameters['state'], )
+    pollutantName = (parameters['pollutant'])
+    stateCode = findStateCode(stateName, cursor)
+
+    findpollutantsQuery =  f"""SELECT psample.date_local, ptype.name, AVG(psample.mean)
+                            FROM pollutant_sample AS psample
+                            INNER JOIN taken_at AS ta
+                                ON psample.id = ta.sample_id
+                            INNER JOIN in_state
+                                ON ta.site_num = in_state.site_num
+                            INNER JOIN is_type AS it
+                                ON psample.id = it.sample_id
+                            INNER JOIN pollutant_type AS ptype
+                                ON ptype.id = it.type_id
+                            WHERE in_state.state_code = {stateCode}
+                                AND ptype.id = {pollutantName}
+                            GROUP BY ptype.name, date_local
+                            ORDER BY date_local, ptype.name;"""
+    
+    cursor.execute(findpollutantsQuery)
+    results = cursor.fetchall()
+
+    return results
+
 def pollutantBySite(parameters, cursor):
     cityName = (parameters['city'], )
     findSiteQuery =  """SELECT site_num FROM survey_site
@@ -53,6 +78,57 @@ def pollutantBySite(parameters, cursor):
     results = cursor.fetchall()
     return results
 
+def pollutantBySiteAndType(parameters, cursor):
+    cityName = (parameters['city'], )
+    pollutantName = (parameters['pollutant'])
+    findSiteQuery =  """SELECT site_num FROM survey_site
+                        WHERE city = %s;""" # Note: no quotes
+    cursor.execute(findSiteQuery, cityName)
+    results = cursor.fetchall()
+    
+    siteNum = results[0][0]
+
+    findpollutantsQuery =  f"""SELECT psample.date_local, psample.id, ptype.name, psample.mean
+                                FROM pollutant_sample AS psample
+                                INNER JOIN taken_at AS ta
+                                    ON psample.id = ta.sample_id
+                                INNER JOIN survey_site AS site
+                                    ON ta.site_num = site.site_num
+                                INNER JOIN is_type AS it
+                                    ON psample.id = it.sample_id
+                                INNER JOIN pollutant_type AS ptype
+                                    ON ptype.id = it.type_id
+                                WHERE site.site_num = {siteNum}
+                                    AND ptype.id = {pollutantName}
+                                ORDER BY ptype.name, date_local;"""
+                                    
+    cursor.execute(findpollutantsQuery)
+    results = cursor.fetchall()
+    return results
+
+def pollutantByCountyAndType(parameters, cursor):
+    countyName = (parameters['county'])
+    pollutantName = (parameters['pollutant'])
+    countyCode = findCountyCode(countyName, cursor)
+    #should we be be slecting AVG(psample.mean) or just psample.mean
+    findpollutantsQuery =  f"""SELECT psample.date_local, ptype.name, AVG(psample.mean)
+                        FROM pollutant_sample AS psample
+                        INNER JOIN taken_at AS ta
+                            ON psample.id = ta.sample_id
+                        INNER JOIN in_county
+                            ON ta.site_num = in_county.site_num
+                        INNER JOIN is_type AS it
+                            ON psample.id = it.sample_id
+                        INNER JOIN pollutant_type AS ptype
+                            ON ptype.id = it.type_id
+                        WHERE in_county.county_code = {countyCode}
+                            AND ptype.id = {pollutantName}
+                        GROUP BY ptype.name, date_local
+                        ORDER BY date_local, ptype.name;"""
+    cursor.execute(findpollutantsQuery)
+    results = cursor.fetchall()
+
+    return results
 
 def siteMeansForSpecifiedPollutant(parameters, cursor):
     pollutantName = (parameters['pollutant'], )
