@@ -107,7 +107,7 @@ def pollutantBySiteAndType(parameters, cursor):
     return results
 
 def pollutantByCountyAndType(parameters, cursor):
-    countyName = (parameters['county'])
+    countyName = (parameters['county'],)
     pollutantName = (parameters['pollutant'])
     countyCode = findCountyCode(countyName, cursor)
     #should we be be slecting AVG(psample.mean) or just psample.mean
@@ -127,7 +127,6 @@ def pollutantByCountyAndType(parameters, cursor):
                         ORDER BY date_local, ptype.name;"""
     cursor.execute(findpollutantsQuery)
     results = cursor.fetchall()
-
     return results
 
 def siteMeansForSpecifiedPollutant(parameters, cursor):
