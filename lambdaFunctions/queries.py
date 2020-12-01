@@ -43,7 +43,7 @@ def pollutantByStateAndType(parameters, cursor):
                             INNER JOIN pollutant_type AS ptype
                                 ON ptype.id = it.type_id
                             WHERE in_state.state_code = {stateCode}
-                                AND ptype.id = {pollutantName}
+                                AND ptype.name = '{pollutantName}'
                             GROUP BY ptype.name, date_local
                             ORDER BY date_local, ptype.name;"""
     
@@ -99,7 +99,7 @@ def pollutantBySiteAndType(parameters, cursor):
                                 INNER JOIN pollutant_type AS ptype
                                     ON ptype.id = it.type_id
                                 WHERE site.site_num = {siteNum}
-                                    AND ptype.id = {pollutantName}
+                                    AND ptype.name = '{pollutantName}'
                                 ORDER BY ptype.name, date_local;"""
                                     
     cursor.execute(findpollutantsQuery)
@@ -122,7 +122,7 @@ def pollutantByCountyAndType(parameters, cursor):
                         INNER JOIN pollutant_type AS ptype
                             ON ptype.id = it.type_id
                         WHERE in_county.county_code = {countyCode}
-                            AND ptype.id = {pollutantName}
+                            AND ptype.name = '{pollutantName}'
                         GROUP BY ptype.name, date_local
                         ORDER BY date_local, ptype.name;"""
     cursor.execute(findpollutantsQuery)
