@@ -14,9 +14,12 @@ h1, h2 {
   color: #1B2845;
 }
 
+h3 {
+  color: #1B2845;
+}
 .column {
   float: left;
-  width: 50%;
+  width: 30%;
 }
 
 /* Clear floats after the columns */
