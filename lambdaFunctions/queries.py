@@ -129,16 +129,16 @@ def pollutantByCountyAndType(parameters, cursor):
     return results
 
 def pollutantByTimeFrame(parameters, cursor):
-    lowerBound = (parameters['lower_bound'], )
-    upperBound = (parameters['upper_bound'], )
+    lowerBound = (parameters['lower_bound'])
+    upperBound = (parameters['upper_bound'])
     findPollutantsQuery = f"""SELECT psample.date_local, ptype.name, AVG(psample.mean)
                         FROM pollutant_sample AS psample
                         INNER JOIN is_type AS it
                             ON psample.id = it.sample_id
                         INNER JOIN pollutant_type AS ptype
                             ON ptype.is = it.type_id
-                        WHERE psample.date_local < {lowerBound}
-                            AND psample.date_local > {upperBound}
+                        WHERE psample.date_local < '{lowerBound}'
+                            AND psample.date_local > '{upperBound}'
                         GROUP BY ptype.name, psample.dale_local
                         ORDER BY psample.date_local, ptype.name
                             """
@@ -148,8 +148,8 @@ def pollutantByTimeFrame(parameters, cursor):
 
 
 def pollutantByTimeFrameAndState(parameters, cursor):
-    lowerBound = (parameters['lower_bound'], )
-    upperBound = (parameters['upper_bound'], )
+    lowerBound = parameters['lower_bound']
+    upperBound = parameters['upper_bound']
     stateName = (parameters['state'], )
     stateCode = findStateCode(stateName, cursor)
     findPollutantsQuery = f"""SELECT psample.date_local, ptype.name, AVG(psample.mean)
@@ -163,8 +163,8 @@ def pollutantByTimeFrameAndState(parameters, cursor):
                         INNER JOIN pollutant_type AS ptype
                             ON ptype.id = it.type_id
                         WHERE in_state.state_code = {stateCode}
-                            AND psample.date_local < {upperBound}
-                            AND psample.date_local > {lowerBound}
+                            AND psample.date_local < '{upperBound}'
+                            AND psample.date_local > '{lowerBound}'
                         GROUP BY ptype.name, date_local
                         ORDER BY date_local, ptype.name;"""
     cursor.execute(findPollutantsQuery)
@@ -173,8 +173,8 @@ def pollutantByTimeFrameAndState(parameters, cursor):
 
 
 def pollutantByTimeFrameAndCounty(parameters, cursor):
-    lowerBound = (parameters['lower_bound'], )
-    upperBound = (parameters['upper_bound'], )
+    lowerBound = parameters['lower_bound']
+    upperBound = parameters['upper_bound']
     countyName = (parameters['county'], )
     countyCode = findCountyCode(countyName, cursor)
     findPollutantsQuery = f"""SELECT psample.date_local, ptype.name, AVG(psample.mean)
@@ -188,8 +188,8 @@ def pollutantByTimeFrameAndCounty(parameters, cursor):
                         INNER JOIN pollutant_type AS ptype
                             ON ptype.id = it.type_id
                         WHERE in_county.county_code = {countyCode}
-                            AND psample.date_local > {lowerBound}
-                            AND psample.date_local < {upperBound}
+                            AND psample.date_local > '{lowerBound}'
+                            AND psample.date_local < '{upperBound}'
                         GROUP BY ptype.name, date_local
                         ORDER BY date_local, ptype.name;"""
     cursor.execute(findPollutantsQuery)
@@ -322,7 +322,7 @@ def findAllStateNames(parameters, cursor):
     return results
 
 def findAllSiteNames(parameters, cursor):
-    findSitesQuery =  f"SELECT address FROM survey_site"
+    findSitesQuery =  f"SELECT city FROM survey_site"
     cursor.execute(findSitesQuery)
     results = cursor.fetchall()
     return results
