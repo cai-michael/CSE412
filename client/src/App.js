@@ -39,7 +39,7 @@ const StateSelector = ({states, setStates}) => {
 
 const PollutantSelector = ({pollutants, setPollutants}) => {
   const selectPollutant = (pollutantName) => (_) =>
-    setPollutants(pollutants.map((p) => ({...p, checked: p.name == pollutantName})))
+    setPollutants(pollutants.map((p) => ({...p, checked: p.name === pollutantName})))
 
   return (
     <form>
