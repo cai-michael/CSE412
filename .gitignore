@@ -1,7 +1,0 @@
-config.json
-.vscode/launch.json
-.vscode/settings.json
-pollution_us_2000_2016.csv
-__pycache__/
-node_modules
-client/.env
