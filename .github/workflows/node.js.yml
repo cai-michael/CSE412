@@ -8,6 +8,9 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+defaults:
+  run:
+    working-directory: ./client
 
 jobs:
   build:
@@ -18,7 +21,6 @@ jobs:
       matrix:
         node-version: [10.x, 12.x, 14.x]
     env:
-      working-directory: ./client
       REACT_APP_ENDPOINT: ${{ secrets.REACT_APP_ENDPOINT }}
       REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }} 
     steps:
@@ -27,8 +29,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - working-directory: ${{env.working-directory}}
     - run: npm install
-    - working-directory: ${{env.working-directory}}
     - run: npm run deploy
       
