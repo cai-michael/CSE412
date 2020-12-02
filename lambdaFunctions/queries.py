@@ -110,7 +110,6 @@ def pollutantByCountyAndType(parameters, cursor):
     countyName = (parameters['county'],)
     pollutantName = (parameters['pollutant'])
     countyCode = findCountyCode(countyName, cursor)
-    #should we be be slecting AVG(psample.mean) or just psample.mean
     findpollutantsQuery =  f"""SELECT psample.date_local, ptype.name, AVG(psample.mean)
                         FROM pollutant_sample AS psample
                         INNER JOIN taken_at AS ta
@@ -147,9 +146,7 @@ def siteMeansForSpecifiedPollutant(parameters, cursor):
 
     return results
 
-# delete queries
-
-
+# Delete queries
 def deleteState(parameters, cursor):
     stateName = parameters['state']
     stateQuery = "DELETE * FROM state WHERE state_name = %s"
@@ -215,31 +212,42 @@ def insertSite(parameters, cursor):
     results = cursor.fetchall()
     siteNum = results[0][0]
 
+    countyCode = findCountyCode(county, cursor)
+    stateCode = findStateCode(state, cursor)
 
-    inCounty = "INSERT INTO in_county VALUES (DEFAULT, generated_site_num, user_chosen_county_code)"
-    inState = "INSERT INTO in_state VALUES (DEFAULT, generated_site_num, user_chosen_state_code)"
+    inCountyQuery = f"INSERT INTO in_county VALUES (DEFAULT, {siteNum}, {countyCode})"
+    inStateQuery = f"INSERT INTO in_state VALUES (DEFAULT, {siteNum}, {stateCode})"
+
+    cursor.execute(inCountyQuery)
+    cursor.execute(inStateQuery)
+
+    results = f"Successful inserted {address} as {siteNum}"
 
 def insertPollutantSample(parameters, cursor):
     pollutantName = (parameters['pollutant'], )
+    address = (parameters['address'], )
+    maxHour = (parameters['maxhour'])
+    date = (parameters['date'])
+    value = (parameters['value'])
+    aqi = (parameters['aqi'])
+    units = (parameters['units'])
+    mean = (parameters['mean'])
 
-    maxHour = (parameters['maxhour'], )
-    date = (parameters['date'], )
-    value = (parameters['value'], )
-    aqi = (parameters['aqi'], )
-    units = (parameters['units'], )
-    mean = (parameters['mean'], )
-
-    insertPollutant =  """INSERT INTO pollutant_sample
-                            VALUES (DEFAULT, user_given_date, user_given_max_hour, user_given_max_value, user_given_aqi,
-	                        user_given_units, user_given_mean) RETURNING id"""
-                                    
+    insertPollutant =  f"INSERT INTO pollutant_sample VALUES (DEFAULT, {date}, {maxHour}, {value}, {aqi}, {units}, {mean}) RETURNING id"
+    
     cursor.execute(insertPollutant, pollutantName)
     results = cursor.fetchall()
-
     sampleId = results[0][0]
 
-    insertType = "INSERT INTO is_type VALUES (user_chosen_type_id, generated_sample_id)"
-    insertSite = "INSERT INTO taken_at VALUES (generated_sample_id, user_chosen_site_num)"
+    siteNum = findSiteCode(address, cursor)
+    pollutantId = findPollutantCode(pollutantName, cursor)
+
+    insertTypeQuery = f"INSERT INTO is_type VALUES ({pollutantId}, {sampleId})"
+    insertSiteQuery = f"INSERT INTO taken_at VALUES ({sampleId}, {siteNum})"
+    cursor.execute(insertTypeQuery)
+    cursor.execute(insertSiteQuery)
+
+    results = f"Successfully inserted sample {sampleId}"
 
     return results
     
@@ -259,3 +267,19 @@ def findStateCode(state, cursor):
     results = cursor.fetchall()
     stateCode = results[0][0]
     return stateCode
+
+def findSiteCode(address, cursor):
+    findSiteQuery =  """SELECT site_num FROM survey_site
+                        WHERE address = %s;""" # Note: no quotes
+    cursor.execute(findSiteQuery, address)
+    results = cursor.fetchall()
+    siteCode = results[0][0]
+    return siteCode
+
+def findPollutantCode(pollutant, cursor):
+    findPollutantQuery =  """SELECT id FROM pollutant_type
+                             WHERE name = %s;""" # Note: no quotes
+    cursor.execute(findPollutantQuery, pollutant)
+    results = cursor.fetchall()
+    pollutantId = results[0][0]
+    return pollutantId
