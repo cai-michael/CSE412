@@ -4,8 +4,8 @@ import json
 userChoice = 0
 
 while userChoice != 5:
-    userChoice = int(input("What would you like to insert to the database?\n1. State\n2. County\n3. Pollutant Site\n4. Pollutant Sample\n5. Quit"))
-    if userChoice < 5 and userChoice > 4:
+    userChoice = int(input("What would you like to insert to the database?\n1. State\n2. County\n3. Pollutant Site\n4. Pollutant Sample\n5. Quit\n"))
+    if userChoice < 5 and userChoice > 0:
         if userChoice == 1:
             stateName = input("Please input a state name: ")
             passedJson = {
@@ -25,40 +25,45 @@ while userChoice != 5:
         elif userChoice == 3:
             countyName = input("Please input a county name: ")
             stateName = input("Please input a state name: ")
-            address = input("Please input a state name: ")
-            city = input("Please input a state name: ")
+            address = input("Please input an address: ")
+            city = input("Please input a city: ")
             passedJson = {
-                "queryType": "insertCounty",
+                "queryType": "insertSite",
                 "parameters": {
                     "county": countyName, 
+                    "state": stateName,
+                    "address": address,
+                    "city": city
                 }
             }
-        elif userChoice == 4:
         else:
+            pollutantName = input("What pollutant is it?: ")
+            address = input("Please input the address: ")
+            maxHour = input("At what point what the pollutant most concentrated?: ")
+            date = input("What date is this sample?: ")
+            maxValue = input("What is the max concentration reached?: ")
+            aqi = input("Please input the aqi: ")
+            units = input("Please input the units of measurement: ")
+            mean = input("Please input the mean concentration: ")
+            passedJson = {
+                "queryType": "insertPollutantSample",
+                "parameters": {
+                    "pollutant": pollutantName, 
+                    "address": address,
+                    "maxhour": maxHour,
+                    "date": date,
+                    "maxvalue": maxValue,
+                    "aqi": aqi,
+                    "units": units,
+                    "mean": mean
+                }
+            }
+        
         body = {
             'body': json.dumps(passedJson)
         }
 
-        print(lambda_function.lambda_handler(body, None))
+        print(lambda_function.lambda_handler(body, None)['body'])
 
-    else if userChoice != 5:
+    elif userChoice != 5:
         print("Invalid Option!")
-
-
-passedJson = {
-    "queryType": "insertPollutantSample",
-    "parameters": {
-        "pollutant" : "CO",
-        "address" : "1234 Made Up Avenue",
-        "state": "Wyoming", 
-        "county": "Laramie",
-        "city": "Cheyenne",
-        "maxhour": "12",
-        "date": "12/1/2020",
-        "maxvalue": "10",
-        "aqi": "10",
-        "units": "parts per googleplex",
-        "mean": "2"
-    }
-}
-
