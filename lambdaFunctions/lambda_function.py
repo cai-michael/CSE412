@@ -34,8 +34,19 @@ cursor = conn.cursor()
 queries = {
     "testRestAPI": testRestAPI,
     "pollutantByState": pollutantByState,
+    "pollutantByStateAndType": pollutantByStateAndType,
     "pollutantBySite": pollutantBySite,
-    "siteMeansForSpecifiedPollutant": siteMeansForSpecifiedPollutant
+    "pollutantBySiteAndType": pollutantBySiteAndType,
+    "pollutantByCountyAndType": pollutantByCountyAndType,
+    "siteMeansForSpecifiedPollutant": siteMeansForSpecifiedPollutant,
+    "insertState": insertState,
+    "insertCounty": insertCounty,
+    "insertSite": insertSite,
+    "insertPollutantSample": insertPollutantSample,
+    "deleteState": deleteState,
+    "deleteSite": deleteSite,
+    "deletePollutantSample": deletePollutantSample,
+    "deleteCounty": deleteCounty,
 }
 
 def lambda_handler(event, context):
