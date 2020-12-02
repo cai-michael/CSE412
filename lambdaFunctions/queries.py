@@ -182,7 +182,7 @@ def deleteCounty(parameters, cursor):
     countyName = results[0][1]
     return f"Successfully deleted {countyName} County with ID {countyCode} from table."
 
-#insert queries
+# Insert queries
 def insertState(parameters, cursor):
     stateName = (parameters['state'], )
     stateQuery = "INSERT INTO state VALUES (DEFAULT, %s) RETURNING state_code"
@@ -193,7 +193,7 @@ def insertState(parameters, cursor):
     return f"Successfully inserted {stateName} as id {stateCode}"
 
 def insertCounty(parameters, cursor):
-    countyName = (parameters['state'], )
+    countyName = (parameters['county'], )
     countyQuery = "INSERT INTO county VALUES (DEFAULT, %s) RETURNING county_code;"
     cursor.execute(countyQuery, countyName)
     results = cursor.fetchall()

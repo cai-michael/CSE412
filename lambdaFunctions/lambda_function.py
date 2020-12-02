@@ -47,8 +47,6 @@ queries = {
     "deleteSite": deleteSite,
     "deletePollutantSample": deletePollutantSample,
     "deleteCounty": deleteCounty,
-
-
 }
 
 def lambda_handler(event, context):
