@@ -203,25 +203,26 @@ def insertCounty(parameters, cursor):
 
 def insertSite(parameters, cursor):
     county = (parameters['county'], )
-    city = (parameters['city'], )
     state = (parameters['state'], )
-    address = (parameters['address'], )
+    address = parameters['address']
+    city = parameters['city']
     
     siteQuery = "INSERT INTO survey_site VALUES (DEFAULT, %s, %s) RETURNING site_num"
-    cursor.execute(siteQuery, address, city)
+    cursor.execute(siteQuery, (address, city, ))
     results = cursor.fetchall()
     siteNum = results[0][0]
 
     countyCode = findCountyCode(county, cursor)
     stateCode = findStateCode(state, cursor)
 
-    inCountyQuery = f"INSERT INTO in_county VALUES (DEFAULT, {siteNum}, {countyCode})"
-    inStateQuery = f"INSERT INTO in_state VALUES (DEFAULT, {siteNum}, {stateCode})"
+    inCountyQuery = f"INSERT INTO in_county VALUES ({siteNum}, {countyCode})"
+    inStateQuery = f"INSERT INTO in_state VALUES ({siteNum}, {stateCode})"
 
     cursor.execute(inCountyQuery)
     cursor.execute(inStateQuery)
 
     results = f"Successful inserted {address} as {siteNum}"
+    return results
 
 def insertPollutantSample(parameters, cursor):
     pollutantName = (parameters['pollutant'], )
