@@ -149,7 +149,7 @@ def siteMeansForSpecifiedPollutant(parameters, cursor):
 # Delete queries
 def deleteState(parameters, cursor):
     stateName = parameters['state']
-    stateQuery = "DELETE * FROM state WHERE state_name = %s"
+    stateQuery = "DELETE FROM state WHERE state_name = %s"
     cursor.execute(stateQuery, stateName)
     results = cursor.fetchall()
     stateCode = results[0][0]
@@ -159,7 +159,7 @@ def deleteState(parameters, cursor):
 def deleteSite(parameters, cursor):
     siteNum = parameters['site_num']
     # ON DELETE CASCADE so only delete survey_site table entry
-    siteQuery = "DELETE * FROM survey_site WHERE site_num = %s"
+    siteQuery = "DELETE FROM survey_site WHERE site_num = %s"
     cursor.execute(siteQuery, siteNum)
     results = cursor.fetchall()
     return f"Successfully deleted site with ID {siteNum} from table."
@@ -168,7 +168,7 @@ def deleteSite(parameters, cursor):
 def deletePollutantSample(parameters, cursor):
     sampleId = parameters['id']
     # ON DELETE CASCADE
-    sampleQuery = "DELETE * FROM pollutant_sample WHERE id = %s"
+    sampleQuery = "DELETE FROM pollutant_sample WHERE id = %s"
     cursor.execute(sampleQuery, sampleId)
     results = cursor.fetchall()
     return f"Successfully deleted sample with ID {sampleId} from table."
@@ -176,7 +176,7 @@ def deletePollutantSample(parameters, cursor):
 
 def deleteCounty(parameters, cursor):
     countyCode = parameters['county_code']
-    countyQuery = "DELETE * FROM county WHERE county_code = %s"
+    countyQuery = "DELETE FROM county WHERE county_code = %s"
     cursor.execute(countyQuery, countyCode)
     results = cursor.fetchall()
     countyName = results[0][1]
