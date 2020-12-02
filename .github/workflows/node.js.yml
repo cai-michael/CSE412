@@ -17,16 +17,17 @@ jobs:
     strategy: 
       matrix:
         node-version: [10.x, 12.x, 14.x]
-
+    env:
+      working-directory: ./client
+      REACT_APP_ENDPOINT: ${{ secrets.REACT_APP_ENDPOINT }}
+      REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }} 
     steps:
+    - working-directory: ${{env.working-directory}}
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-      env:
-        REACT_APP_ENDPOINT: ${{ secrets.REACT_APP_ENDPOINT }}
-        REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }} 
     - run: npm install
     - run: npm run deploy
       
