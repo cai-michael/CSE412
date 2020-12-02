@@ -28,6 +28,5 @@ jobs:
         REACT_APP_ENDPOINT: ${{ secrets.REACT_APP_ENDPOINT }}
         REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }} 
     - run: npm install
-    - run: npm run build --if-present
-    - run: npm test
+    - run: npm run deploy
       
