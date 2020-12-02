@@ -124,12 +124,13 @@ export default () => {
     <>
       <h1>Pollutant Data Visualization</h1>
       <h2>Michael Cai, Jacob Farabee, Kesav Kadalazhi, Madison Kuhler, Brennan Kuhman, Jack Summers</h2>
-      <div class="toolbar">
-        <StateSelector {...{states, setStates}} />
-        <br />
-        <PollutantSelector {...{pollutants, setPollutants}} />
-      </div>
       
+      <div class="toolbar">
+        <div class="row">
+          <div class="column"><StateSelector {...{states, setStates}} /></div>
+          <div class="column"><PollutantSelector {...{pollutants, setPollutants}} /></div>
+        </div>
+      </div>
       <br />
       <div class="graph">
         <ScatterPlot {...{data}} />
