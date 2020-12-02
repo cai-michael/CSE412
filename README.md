@@ -1,6 +1,9 @@
 # CSE412
 Group 9's Database Management Project
 
+Warning: Master branch will automatically deploy to GitHub Pages. When editing, create a test branch 
+and merge with master after successfully testing locally.
+
 Group Members:
 
 - Madison Kuhler
