@@ -14,7 +14,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
+    strategy: 
       matrix:
         node-version: [10.x, 12.x, 14.x]
 
@@ -24,6 +24,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm ci
+      env:
+        REACT_APP_ENDPOINT: ${{ secrets.REACT_APP_ENDPOINT }}
+        REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }} 
+    - run: npm install
     - run: npm run build --if-present
     - run: npm test
+      
