@@ -82,9 +82,9 @@ export default () => {
   const [states, setStates] = useState([])
   const [types, setTypes] = useState([])
   const [queries, setQueries] = useState([
-    {name: 'site and type', queryType: 'pollutantBySiteAndType', checked: true},
-    {name: 'county and type', queryType: 'pollutantByCountyAndType', checked: false},
-    {name: 'state and type', queryType: 'pollutantByStateAndType', checked: false},
+    {name: 'Site and Type', queryType: 'pollutantBySiteAndType', checked: true},
+    {name: 'County and Type', queryType: 'pollutantByCountyAndType', checked: false},
+    {name: 'State and Type', queryType: 'pollutantByStateAndType', checked: false},
   ])
   const [data, setData] = useState([])
 
@@ -134,29 +134,59 @@ export default () => {
 
   return (
     <>
-      <Selector items={queries} setItems={setQueries} />
-      <br />
-      {selected(queries).queryType === 'pollutantBySiteAndType' && (
-        <>
-          <Selector items={sites} setItems={setSites} />
-          <br />
-        </>
-      )}
-      {selected(queries).queryType === 'pollutantByCountyAndType' && (
-        <>
-          <Selector items={counties} setItems={setCounties} />
-          <br />
-        </>
-      )}
-      {selected(queries).queryType === 'pollutantByStateAndType' && (
-        <>
-          <Selector items={states} setItems={setStates} />
-          <br />
-        </>
-      )}
-      <Selector items={types} setItems={setTypes} />
-      <br />
-      <ScatterPlot data={data} />
+      <h1>Air Quality Data Visualization Tool</h1>
+      <h2>Michael Cai, Jacob Farabee, Kesav Kadalazhi, Madison Kuhler, Brennan Kuhman, Jack Summers</h2>
+      <div class="toolbar">
+      <div class="row">
+        
+          <div class="column">
+          <h3>Query Type</h3>
+          <Selector items={queries} setItems={setQueries} />
+            <br />
+            
+          </div>
+
+          <div class="column">
+            
+            {selected(queries).queryType === 'pollutantBySiteAndType' && (
+                <>
+                  <h3>Site</h3>
+                  <Selector items={sites} setItems={setSites} />
+                  <br />
+                </>
+              )}
+
+            {selected(queries).queryType === 'pollutantByCountyAndType' && (
+              <>
+                <h3>County</h3>
+                <Selector items={counties} setItems={setCounties} />
+                <br />
+              </>
+            )}
+
+            {selected(queries).queryType === 'pollutantByStateAndType' && (
+              <>
+                <h3>State</h3>
+                <Selector items={states} setItems={setStates} />
+                <br />
+              </>
+            )}
+
+          </div>
+          <div class="column">
+            <h3>Pollutant Type</h3>
+            <Selector items={types} setItems={setTypes} />
+            <br />
+          </div>
+      </div>
+      </div>
+
+      
+
+      <div class="graph">
+        <ScatterPlot data={data} />
+      </div>
+      
     </>
   )
 }
