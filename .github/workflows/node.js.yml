@@ -30,8 +30,13 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-    - run: npm install
-    - run: npm run deploy
-      
+        npm install
+        npm run build
+        
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@3.7.1
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: build
+        CLEAN: true
