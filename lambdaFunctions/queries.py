@@ -229,12 +229,12 @@ def insertPollutantSample(parameters, cursor):
     address = (parameters['address'], )
     maxHour = (parameters['maxhour'])
     date = (parameters['date'])
-    value = (parameters['value'])
+    maxValue = (parameters['maxvalue'])
     aqi = (parameters['aqi'])
     units = (parameters['units'])
     mean = (parameters['mean'])
 
-    insertPollutant =  f"INSERT INTO pollutant_sample VALUES (DEFAULT, {date}, {maxHour}, {value}, {aqi}, {units}, {mean}) RETURNING id"
+    insertPollutant =  f"INSERT INTO pollutant_sample VALUES (DEFAULT, '{date}', {maxHour}, {maxValue}, {aqi}, '{units}', {mean}) RETURNING id"
     
     cursor.execute(insertPollutant, pollutantName)
     results = cursor.fetchall()
