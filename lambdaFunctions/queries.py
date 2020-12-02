@@ -253,7 +253,7 @@ def findAllStateNames(parameters, cursor):
     return results
 
 def findAllSiteNames(parameters, cursor):
-    findSitesQuery =  f"SELECT address FROM survey_site"
+    findSitesQuery =  f"SELECT city FROM survey_site"
     cursor.execute(findSitesQuery)
     results = cursor.fetchall()
     return results
