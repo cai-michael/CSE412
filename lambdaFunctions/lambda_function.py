@@ -49,6 +49,8 @@ queries = {
     "deleteCounty": deleteCounty,
     "findAllStateNames": findAllStateNames,
     "findAllSiteNames": findAllSiteNames,
+    "findAllCountyNames": findAllCountyNames,
+    "findAllSiteNamesByState": findAllSiteNamesByState,
 }
 
 def lambda_handler(event, context):
