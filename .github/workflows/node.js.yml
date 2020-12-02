@@ -19,7 +19,7 @@ jobs:
 
     strategy: 
       matrix:
-        node-version: [10.x, 12.x, 14.x]
+        node-version: [14.x]
     env:
       REACT_APP_ENDPOINT: ${{ secrets.REACT_APP_ENDPOINT }}
       REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }} 
