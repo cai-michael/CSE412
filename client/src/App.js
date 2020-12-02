@@ -122,19 +122,27 @@ export default () => {
 
   return (
     <>
-      <h1>Pollutant Data Visualization</h1>
-      <h2>Michael Cai, Jacob Farabee, Kesav Kadalazhi, Madison Kuhler, Brennan Kuhman, Jack Summers</h2>
-      
-      <div class="toolbar">
-        <div class="row">
-          <div class="column"><StateSelector {...{states, setStates}} /></div>
-          <div class="column"><PollutantSelector {...{pollutants, setPollutants}} /></div>
+      <div class="heading">
+        <h1>Pollutant Data Visualization</h1>
+        <h2>Michael Cai, Jacob Farabee, Kesav Kadalazhi, Madison Kuhler, Brennan Kuhman, Jack Summers</h2>
+      </div>
+      <div class="content">
+        <div class="row toolbar">
+          <div class="column">
+            <h4>State</h4>
+            <StateSelector {...{states, setStates}} />
+            </div>
+          <div class="column">
+            <h4>Pollutant</h4>
+            <PollutantSelector {...{pollutants, setPollutants}} />
+            </div>
+        </div>
+
+        <div class="graph">
+          <ScatterPlot {...{data}} />
         </div>
       </div>
-      <br />
-      <div class="graph">
-        <ScatterPlot {...{data}} />
-      </div>
+      
       
     </>
   )
