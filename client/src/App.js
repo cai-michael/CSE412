@@ -39,12 +39,7 @@ const StateSelector = ({states, setStates}) => {
 
 const PollutantSelector = ({pollutants, setPollutants}) => {
   const selectPollutant = (pollutantName) => (_) =>
-    setPollutants(
-      pollutants.map((p) => {
-        if (pollutantName === p.name) return {...p, checked: !p.checked}
-        else return p
-      }),
-    )
+    setPollutants(pollutants.map((p) => ({...p, checked: p.name == pollutantName})))
 
   return (
     <form>
@@ -53,7 +48,7 @@ const PollutantSelector = ({pollutants, setPollutants}) => {
           <label>
             <input
               name={pollutant.name}
-              type="checkbox"
+              type="radio"
               checked={pollutant.checked}
               onChange={selectPollutant(pollutant.name)}
             />

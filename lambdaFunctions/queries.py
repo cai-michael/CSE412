@@ -246,6 +246,32 @@ def insertPollutantSample(parameters, cursor):
 
     return results
     
+def findAllStateNames(parameters, cursor):
+    findStatesQuery =  f"SELECT state_name FROM state"
+    cursor.execute(findStatesQuery)
+    results = cursor.fetchall()
+    return results
+
+def findAllSiteNames(parameters, cursor):
+    findSitesQuery =  f"SELECT address FROM survey_site"
+    cursor.execute(findSitesQuery)
+    results = cursor.fetchall()
+    return results
+
+def findAllCountyNames(parameters, cursor):
+    findCountiesQuery =  f"SELECT county_name FROM county"
+    cursor.execute(findCountiesQuery)
+    results = cursor.fetchall()
+    return results
+
+def findAllSiteNamesByState(parameters, cursor):
+    state = (parameters['state'], )
+    stateCode = findStateCode(state, cursor)
+    findSitesQuery =  f"SELECT address FROM survey_site INNER JOIN in_state ON in_state.site_num = survey_site.site_num WHERE in_state.state_code = {stateCode}"
+    cursor.execute(findSitesQuery)
+    results = cursor.fetchall()
+    return results
+    
 # Helper Functions
 def findCountyCode(county, cursor):
     findCountyQuery =  """SELECT county_code FROM county
