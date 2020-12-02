@@ -18,7 +18,7 @@ const StateSelector = ({states, setStates}) => {
     setStates(states.map((state) => ({...state, checked: state.name === stateName})))
 
   return (
-    <form class="toolbar">
+    <form>
       {states.map((state) => (
         <Fragment key={state.name}>
           <label>
@@ -126,21 +126,25 @@ export default () => {
         <h1>Pollutant Data Visualization</h1>
         <h2>Michael Cai, Jacob Farabee, Kesav Kadalazhi, Madison Kuhler, Brennan Kuhman, Jack Summers</h2>
       </div>
-      <div class="content">
-        <div class="row toolbar">
+      <div class="toolbar">
+
+        <div class="row">
           <div class="column">
             <h4>State</h4>
             <StateSelector {...{states, setStates}} />
-            </div>
+          </div>
+          
           <div class="column">
             <h4>Pollutant</h4>
             <PollutantSelector {...{pollutants, setPollutants}} />
-            </div>
-        </div>
+          </div>
 
-        <div class="graph">
-          <ScatterPlot {...{data}} />
         </div>
+      </div>
+      
+
+      <div class="graph">
+        <ScatterPlot {...{data}} />
       </div>
       
       
