@@ -39,12 +39,7 @@ const StateSelector = ({states, setStates}) => {
 
 const PollutantSelector = ({pollutants, setPollutants}) => {
   const selectPollutant = (pollutantName) => (_) =>
-    setPollutants(
-      pollutants.map((p) => {
-        if (pollutantName === p.name) return {...p, checked: !p.checked}
-        else return p
-      }),
-    )
+    setPollutants(pollutants.map((p) => ({...p, checked: p.name == pollutantName})))
 
   return (
     <form>
@@ -53,7 +48,7 @@ const PollutantSelector = ({pollutants, setPollutants}) => {
           <label>
             <input
               name={pollutant.name}
-              type="checkbox"
+              type="radio"
               checked={pollutant.checked}
               onChange={selectPollutant(pollutant.name)}
             />
@@ -122,11 +117,32 @@ export default () => {
 
   return (
     <>
-      <StateSelector {...{states, setStates}} />
-      <br />
-      <PollutantSelector {...{pollutants, setPollutants}} />
-      <br />
-      <ScatterPlot {...{data}} />
+      <div class="heading">
+        <h1>Pollutant Data Visualization</h1>
+        <h2>Michael Cai, Jacob Farabee, Kesav Kadalazhi, Madison Kuhler, Brennan Kuhman, Jack Summers</h2>
+      </div>
+      <div class="toolbar">
+
+        <div class="row">
+          <div class="column">
+            <h4>State</h4>
+            <StateSelector {...{states, setStates}} />
+          </div>
+          
+          <div class="column">
+            <h4>Pollutant</h4>
+            <PollutantSelector {...{pollutants, setPollutants}} />
+          </div>
+
+        </div>
+      </div>
+      
+
+      <div class="graph">
+        <ScatterPlot {...{data}} />
+      </div>
+      
+      
     </>
   )
 }
